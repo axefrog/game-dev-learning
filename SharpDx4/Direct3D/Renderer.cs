@@ -3,7 +3,6 @@ using System.Diagnostics;
 using SharpDX;
 using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
-using SharpDX.DXGI;
 using SharpDx4.Direct3D.Shaders;
 using SharpDx4.Game.Geometry;
 using Buffer = SharpDX.Direct3D11.Buffer;
@@ -35,9 +34,10 @@ namespace SharpDx4.Direct3D
 			InitializeViewTransformMatrixBuffer();
 		}
 
-		readonly Stopwatch _sw = Stopwatch.StartNew();
-		public int FramesPerSecond { get; private set; }
+		private readonly Stopwatch _fpsSw = Stopwatch.StartNew();
+		private readonly Stopwatch _sw = Stopwatch.StartNew();
 		private int _fps;
+		public int FramesPerSecond { get; private set; }
 
 		public void Draw()
 		{
@@ -52,23 +52,19 @@ namespace SharpDx4.Direct3D
 
 			foreach (var modelData in _sceneData.ModelRenderData.Values)
 			{
-				_device.Context.InputAssembler.SetVertexBuffers(0, modelData.VerticesBufferBinding, modelData.InstancesBufferBinding);
-				_device.Context.InputAssembler.SetIndexBuffer(modelData.IndicesBuffer, Format.R32_UInt, 0);
-				_device.Context.InputAssembler.InputLayout = (modelData.VertexShader ?? _defaultVertexShader).InputLayout;
-				_device.Context.VertexShader.Set((modelData.VertexShader ?? _defaultVertexShader).Shader);
+				(modelData.VertexShader ?? _defaultVertexShader).AssignToContext(_device.Context, modelData);
 				_device.Context.PixelShader.Set((modelData.PixelShader ?? _defaultPixelShader).Shader);
-
-				_device.Context.DrawIndexed(modelData.Model.Triangles.Length*3, 0, 0);
-				//_device.Context.DrawIndexedInstanced();
+				
+				modelData.Draw(_device.Context, _sw.ElapsedMilliseconds);
 			}
 
 			_device.Present();
 
-			if (_sw.ElapsedMilliseconds >= 1000)
+			if (_fpsSw.ElapsedMilliseconds >= 1000)
 			{
 				FramesPerSecond = _fps;
 				_fps = 0;
-				_sw.Restart();
+				_fpsSw.Restart();
 			}
 			else
 				_fps++;

@@ -13,7 +13,7 @@ namespace SharpDx4.Direct3D
 		public Model Model { get; set; }
 		public VertexBufferBinding VerticesBufferBinding { get; set; }
 		public VertexBufferBinding InstancesBufferBinding { get; set; }
-		public Buffer IndicesBuffer { get; set; }
+		public Buffer IndexBuffer { get; set; }
 		public ICompiledVertexShader VertexShader { get; set; }
 		public ICompiledPixelShader PixelShader { get; set; }
 			
@@ -21,23 +21,25 @@ namespace SharpDx4.Direct3D
 		{
 			VerticesBufferBinding.Buffer.Dispose();
 			InstancesBufferBinding.Buffer.Dispose();
-			IndicesBuffer.Dispose();
+			IndexBuffer.Dispose();
 		}
 
 		public ModelDeviceData(Model model, Device device)
 		{
 			Model = model;
-			var vertices = Helpers.CreateBuffer(device, BindFlags.VertexBuffer, model.Vertices);
-			var instances = Helpers.CreateBuffer(device, BindFlags.VertexBuffer, Model.Instances.Select(m =>
-			{
-				var world = m.WorldMatrix;
-				world.Transpose();
-				return world;
-			}).ToArray());
+			var vertices = Helpers.CreateBuffer(device, ResourceUsage.Default, BindFlags.VertexBuffer, model.Vertices);
+			var instances = Helpers.CreateBuffer(device, ResourceUsage.Dynamic, BindFlags.VertexBuffer, Model.Instances.Select(m => Matrix.Transpose(m.WorldMatrix)).ToArray());
 
 			VerticesBufferBinding = new VertexBufferBinding(vertices, Utilities.SizeOf<ColoredVertex>(), 0);
 			InstancesBufferBinding = new VertexBufferBinding(instances, Utilities.SizeOf<Matrix>(), 0);
-			IndicesBuffer = Helpers.CreateBuffer(device, BindFlags.IndexBuffer, model.Triangles);
+			IndexBuffer = Helpers.CreateBuffer(device, ResourceUsage.Default, BindFlags.IndexBuffer, model.Triangles);
+		}
+
+		public void Draw(DeviceContext context, long elapsedMilliseconds)
+		{
+			Model.Update(elapsedMilliseconds);
+			Helpers.UpdateDynamicBuffer(context.Device, InstancesBufferBinding.Buffer, Model.Instances.Select(m => Matrix.Transpose(m.WorldMatrix)).ToArray());
+			context.DrawIndexedInstanced(Model.Triangles.Length*3, Model.Instances.Count, 0, 0, 0);
 		}
 	}
 }

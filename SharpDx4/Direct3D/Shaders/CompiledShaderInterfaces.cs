@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Cryptography.X509Certificates;
 using SharpDX.Direct3D11;
 
 namespace SharpDx4.Direct3D.Shaders
@@ -7,6 +8,7 @@ namespace SharpDx4.Direct3D.Shaders
 	{
 		VertexShader Shader { get; }
 		InputLayout InputLayout { get; }
+		void AssignToContext(DeviceContext context, ModelDeviceData modelData);
 	}
 
 	public interface ICompiledPixelShader : IDisposable

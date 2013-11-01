@@ -27,8 +27,3 @@ VOut VShader(VIn input)
 	output.color = input.color;
 	return output;
 }
-
-float4 PShader(float4 position : SV_POSITION, float4 color: COLOR) : SV_Target
-{
-	return color;
-}

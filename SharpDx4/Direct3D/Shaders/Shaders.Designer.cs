@@ -61,6 +61,18 @@ namespace SharpDx4.Direct3D.Shaders {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to float4 PShader(float4 position : SV_POSITION, float4 color: COLOR) : SV_Target
+        ///{
+        ///	return color;
+        ///}.
+        /// </summary>
+        internal static string PShader {
+            get {
+                return ResourceManager.GetString("PShader", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to cbuffer ConstantBuffer : register(b0)
         ///{
         ///	matrix World;
@@ -74,21 +86,24 @@ namespace SharpDx4.Direct3D.Shaders {
         ///    float4 color : COLOR;
         ///};
         ///
-        ///VOut VShader(float4 position : POSITION, float4 color: COLOR)
+        ///struct VIn
+        ///{
+        ///	float4 position: POSITION;
+        ///	float4 color: COLOR;
+        ///	matrix instance: INSTANCE;
+        ///};
+        ///
+        ///VOut VShader(VIn input)
         ///{
         ///	VOut output;
-        ///	output.position = mul(position, World);
+        ///	output.position = mul(input.position, input.instance);
         ///	output.position = mul(output.position, View);
         ///	output.position = mul(output.position, Projection);
-        ///	output.color = color;
-        ///	return output;
-        ///}
-        ///
-        ///float4 PShader(float4 position : SV_POSITION, float4 colo [rest of string was truncated]&quot;;.
+        ///	output.color = input.co [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string DefaultShaders {
+        internal static string VShader {
             get {
-                return ResourceManager.GetString("DefaultShaders", resourceCulture);
+                return ResourceManager.GetString("VShader", resourceCulture);
             }
         }
     }

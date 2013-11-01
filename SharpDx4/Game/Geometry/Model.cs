@@ -13,20 +13,18 @@ namespace SharpDx4.Game.Geometry
 		public TriangleIndex[] Triangles { get; set; }
 		public List<ModelInstance> Instances { get; set; }
 		
-		public Vector3 Position { get; set; }
-		public Quaternion Orientation { get; set; }
-		public Vector3 Scale { get; set; }
-
 		public Model(ColoredVertex[] vertices, TriangleIndex[] triangles)
 		{
 			Id = Interlocked.Increment(ref _id);
 			Vertices = vertices;
 			Triangles = triangles;
 			Instances = new List<ModelInstance>();
+		}
 
-			Position = Vector3.One;
-			Orientation = Quaternion.Identity;
-			Scale = Vector3.One;
+		public void Update(long elapsedMilliseconds)
+		{
+			foreach(var instance in Instances)
+				instance.Update(elapsedMilliseconds);
 		}
 	}
 }

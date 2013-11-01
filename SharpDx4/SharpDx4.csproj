@@ -99,7 +99,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Direct3D\Shaders\DefaultShaders.fx" />
+    <Content Include="Direct3D\Shaders\Source\PShader.fx" />
+    <Content Include="Direct3D\Shaders\Source\VShader.fx" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Direct3D\Shaders\Shaders.resx">

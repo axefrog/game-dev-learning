@@ -1,5 +1,5 @@
 ﻿using System;
-using SharpDX.Toolkit.Graphics;
+using SharpDX;
 using SharpDx4.Game.Geometry;
 using Model = SharpDx4.Game.Geometry.Model;
 
@@ -14,7 +14,14 @@ namespace SharpDx4.Game
 			_scene = new Scene();
 			var model = GetCubeModel();
 			Scene.Models.Add(model);
-			model.Instances.Add(new ModelInstance());
+			var rand = new Random();
+			for(var i = 0; i < 1000; i++)
+				model.Instances.Add(new ModelInstance(new Vector3(
+					rand.NextFloat(-15f, 15f), rand.NextFloat(-15f, 15f), rand.NextFloat(-15f, 15f)),
+					rand.NextFloat(0.01f, .75f),
+					rand.NextFloat(0, (float)Math.PI / 2),
+					rand.NextFloat(0, (float)Math.PI / 2),
+					rand.NextFloat(0, (float)Math.PI / 2)));
 		}
 
 		public Scene Scene
