@@ -13,7 +13,7 @@ struct VOut
 
 struct VIn
 {
-	float3 position: POSITION;
+	float4 position: POSITION;
 	float4 color: COLOR;
 	matrix instance: INSTANCE;
 };

@@ -18,7 +18,7 @@ namespace SharpDx4.Direct3D.Shaders
 			}
 			var elements = new[]
 			{
-				new InputElement("POSITION", 0, Format.R32G32B32_Float, 0, 0, InputClassification.PerVertexData, 0),
+				new InputElement("POSITION", 0, Format.R32G32B32A32_Float, 0, 0, InputClassification.PerVertexData, 0),
 				new InputElement("COLOR", 0, Format.R32G32B32A32_Float, 12, 0),
 				new InputElement("INSTANCE0", 0, Format.R32G32B32A32_Float, 0, 1, InputClassification.PerInstanceData, 1),
 				new InputElement("INSTANCE1", 1, Format.R32G32B32A32_Float, 16, 1, InputClassification.PerInstanceData, 1),
