@@ -50,11 +50,15 @@ namespace SharpDx4.Direct3D
 			_device.Clear(Color.CornflowerBlue);
 			UpdateViewTransformMatrixBuffer();
 
+			var isAssigned = false;
 			foreach (var modelData in _sceneData.ModelRenderData.Values)
 			{
-				(modelData.VertexShader ?? _defaultVertexShader).AssignToContext(_device.Context, modelData);
-				_device.Context.PixelShader.Set((modelData.PixelShader ?? _defaultPixelShader).Shader);
-				
+				if (!isAssigned)
+				{
+					(modelData.VertexShader ?? _defaultVertexShader).AssignToContext(_device.Context, modelData);
+					_device.Context.PixelShader.Set((modelData.PixelShader ?? _defaultPixelShader).Shader);
+					isAssigned = true;
+				}
 				modelData.Draw(_device.Context, _sw.ElapsedMilliseconds);
 			}
 

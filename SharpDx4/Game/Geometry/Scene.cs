@@ -18,9 +18,9 @@ namespace SharpDx4.Game.Geometry
 
 		private readonly Stopwatch _sw = Stopwatch.StartNew();
 		private const float _twoPi = (float)Math.PI*2;
-		private const int _xPeriod = 5000;
-		private const int _yPeriod = 3000;
-		private const int _zPeriod = 8000;
+		private const int _xPeriod = 50000;
+		private const int _yPeriod = 30000;
+		private const int _zPeriod = 80000;
 
 		public void Update()
 		{

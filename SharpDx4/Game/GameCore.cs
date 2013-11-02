@@ -15,9 +15,9 @@ namespace SharpDx4.Game
 			var model = GetCubeModel();
 			Scene.Models.Add(model);
 			var rand = new Random();
-			for(var i = 0; i < 1000; i++)
+			for(var i = 0; i < 2000; i++)
 				model.Instances.Add(new ModelInstance(new Vector3(
-					rand.NextFloat(-15f, 15f), rand.NextFloat(-15f, 15f), rand.NextFloat(-15f, 15f)),
+					rand.NextFloat(-30f, 30f), rand.NextFloat(-30f, 30f), rand.NextFloat(-30f, 30f)),
 					rand.NextFloat(0.01f, .75f),
 					rand.NextFloat(0, (float)Math.PI / 2),
 					rand.NextFloat(0, (float)Math.PI / 2),
