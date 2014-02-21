@@ -7,8 +7,8 @@
     <ProjectGuid>{12462A6A-D544-491F-9C4D-96814B3C60D5}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SharpDx4</RootNamespace>
-    <AssemblyName>SharpDx4</AssemblyName>
+    <RootNamespace>SharpDx5</RootNamespace>
+    <AssemblyName>SharpDx5</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">.\</SolutionDir>
@@ -23,7 +23,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <UseVSHostingProcess>true</UseVSHostingProcess>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -35,23 +35,23 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <StartupObject>SharpDx4.App</StartupObject>
+    <StartupObject>SharpDx5.App</StartupObject>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="Direct3D\EffectBase.cs" />
     <Compile Include="Direct3D\Helpers.cs" />
     <Compile Include="Direct3D\ModelDeviceData.cs" />
     <Compile Include="Direct3D\Renderer.cs" />
     <Compile Include="Direct3D\RenderingDevice.cs" />
     <Compile Include="Direct3D\SceneDeviceData.cs" />
+    <Compile Include="Direct3D\Shaders\CompiledShaderInterfaces.cs" />
+    <Compile Include="Direct3D\Shaders\DefaultEffect.cs" />
     <Compile Include="Direct3D\Shaders\Shaders.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Shaders.resx</DependentUpon>
     </Compile>
-    <Compile Include="Direct3D\Shaders\CompiledShaderInterfaces.cs" />
-    <Compile Include="Direct3D\Shaders\DefaultPixelShader.cs" />
-    <Compile Include="Direct3D\Shaders\DefaultVertexShader.cs" />
     <Compile Include="Direct3D\ViewTransformMatrices.cs" />
     <Compile Include="GameForm.cs">
       <SubType>Form</SubType>
@@ -73,25 +73,16 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\SharpDX.D3DCompiler.2.5.0\lib\net40\SharpDX.D3DCompiler.dll</HintPath>
     </Reference>
-    <Reference Include="SharpDX.Direct2D1, Version=2.5.0.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>packages\SharpDX.Direct2D1.2.5.0\lib\net40\SharpDX.Direct2D1.dll</HintPath>
-    </Reference>
     <Reference Include="SharpDX.Direct3D11, Version=2.5.0.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\SharpDX.Direct3D11.2.5.0\lib\net40\SharpDX.Direct3D11.dll</HintPath>
     </Reference>
+    <Reference Include="SharpDX.Direct3D11.Effects">
+      <HintPath>packages\SharpDX.Direct3D11.Effects.2.5.0\lib\net40\SharpDX.Direct3D11.Effects.dll</HintPath>
+    </Reference>
     <Reference Include="SharpDX.DXGI, Version=2.5.0.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>packages\SharpDX.DXGI.2.5.0\lib\net40\SharpDX.DXGI.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Toolkit, Version=2.5.0.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>packages\SharpDX.Toolkit.2.5.0\lib\net40\SharpDX.Toolkit.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpDX.Toolkit.Graphics, Version=2.5.0.0, Culture=neutral, PublicKeyToken=627a3d6d1956f55a, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>packages\SharpDX.Toolkit.Graphics.2.5.0\lib\net40\SharpDX.Toolkit.Graphics.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
@@ -101,8 +92,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Direct3D\Shaders\Source\PShader.fx" />
-    <Content Include="Direct3D\Shaders\Source\VShader.fx" />
+    <Content Include="Direct3D\Shaders\Source\ColorTech.fx" />
+    <Content Include="sharpdx_direct3d11_effects_x64.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="sharpdx_direct3d11_effects_x86.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Direct3D\Shaders\Shaders.resx">
