@@ -1,6 +1,4 @@
 Game-Dev-Learning
 =================
 
-This is a simple repository for myself and friends to build a shared resource to assist us in our game development learning.
-
-More than likely, there's nothing here of interest for you. Everything's in the [wiki section](https://github.com/axefrog/game-dev-learning/wiki).
+This is a public repository where I'm posting code I write as learn 3D graphics and game development. More details on my blog at http://nathanridley.com.
