@@ -1,11 +1,12 @@
 ﻿using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using Grasshopper.Cubes.Game;
 using Grasshopper.Engine;
 using Grasshopper.Engine.Rendering;
-using SharpDX;
 using SharpDX.Windows;
+using Color = SharpDX.Color;
 
 namespace Grasshopper.Cubes
 {
@@ -78,6 +79,7 @@ namespace Grasshopper.Cubes
 			}).ToArray();
 
 			RenderManager.Camera = _game.ActiveCamera;
+			_form.ClientSize = new Size(_form.Width, _form.Height);
 
 			RenderLoop.Run(_form, () =>
 			{
