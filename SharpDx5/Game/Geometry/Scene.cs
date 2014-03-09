@@ -28,7 +28,7 @@ namespace SharpDx5.Game.Geometry
 			var phaseY = (float)Math.Sin((_sw.ElapsedMilliseconds % _yPeriod) * _twoPi / _yPeriod);
 			var phaseZ = (float)Math.Sin((_sw.ElapsedMilliseconds % _zPeriod) * _twoPi / _zPeriod);
 
-			Camera.EyePosition = new Vector3(5+4*phaseX, 3+8*phaseY, 5*phaseZ);
+			//Camera.EyePosition = new Vector3(5+4*phaseX, 3+8*phaseY, 5*phaseZ);
 		}
 	}
 }

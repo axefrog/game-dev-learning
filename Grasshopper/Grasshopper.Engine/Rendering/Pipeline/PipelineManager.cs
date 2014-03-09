@@ -11,7 +11,7 @@ using Factory2 = SharpDX.DXGI.Factory2;
 using Resource = SharpDX.Direct3D11.Resource;
 using ResultCode = SharpDX.DXGI.ResultCode;
 
-namespace Grasshopper.Engine.Pipeline
+namespace Grasshopper.Engine.Rendering.Pipeline
 {
 	public class PipelineManager : Component
 	{
@@ -156,6 +156,13 @@ namespace Grasshopper.Engine.Pipeline
 			var handler = SizeChanged;
 			if(handler != null)
 				handler();
+		}
+
+		public void Clear(Color4 color)
+		{
+			var context = _app.DeviceManager.Direct3D.Context;
+			context.ClearRenderTargetView(RenderTargetView, color);
+			context.ClearDepthStencilView(DepthStencilView, DepthStencilClearFlags.Depth | DepthStencilClearFlags.Stencil, 1.0f, 0);
 		}
 
 		private SwapChainDescription1 CreateSwapChainDescription()

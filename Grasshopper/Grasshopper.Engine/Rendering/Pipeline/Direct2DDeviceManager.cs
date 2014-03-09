@@ -2,7 +2,7 @@
 using SharpDX.Direct2D1;
 using Factory = SharpDX.DirectWrite.Factory;
 
-namespace Grasshopper.Engine.Pipeline
+namespace Grasshopper.Engine.Rendering.Pipeline
 {
 	public class Direct2DDeviceManager : Component
 	{

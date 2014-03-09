@@ -3,6 +3,7 @@ using SharpDX.Direct3D;
 using SharpDX.Windows;
 using SharpDx5.Direct3D;
 using SharpDx5.Game;
+using SharpDx5.Game.UserInterface;
 
 namespace SharpDx5
 {
@@ -25,7 +26,7 @@ namespace SharpDx5
 				form.Width = 1024;
 				form.Height = 768;
 
-				device.SetWireframeRasterState();
+				device.SetDefaultRasterState();
 				renderer.SetScene(game.Scene);
 
 				RenderLoop.Run(form, () =>

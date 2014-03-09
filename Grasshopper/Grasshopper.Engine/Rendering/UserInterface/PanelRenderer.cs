@@ -2,7 +2,7 @@
 
 namespace Grasshopper.Engine.Rendering.UserInterface
 {
-	public abstract class BoxRenderer : Renderer
+	public abstract class PanelRenderer : Renderer
 	{
 		private float? _height;
 		private float? _width;
@@ -11,12 +11,18 @@ namespace Grasshopper.Engine.Rendering.UserInterface
 		public event Action HeightChanged;
 		public event Action WidthChanged;
 
+		protected PanelRenderer()
+		{
+			ChildRendererAttached += OnChildRendererAttached;
+			ChildRendererReleased += OnChildRendererReleased;
+		}
+
 		public float Height
 		{
 			get
 			{
 				lock(_lock)
-					return _height ?? CalculateHeight();
+					return _height ?? CalculateHeightInternal();
 			}
 		}
 
@@ -25,7 +31,7 @@ namespace Grasshopper.Engine.Rendering.UserInterface
 			get
 			{
 				lock(_lock)
-					return _width ?? CalculateWidth();
+					return _width ?? CalculateWidthInternal();
 			}
 		}
 
@@ -50,17 +56,9 @@ namespace Grasshopper.Engine.Rendering.UserInterface
 		protected abstract float CalculateWidth();
 		protected abstract float CalculateHeight();
 
-		public override void Initialize(GrasshopperApp app)
-		{
-			base.Initialize(app);
-
-			ChildRendererAttached += OnChildRendererAttached;
-			ChildRendererReleased += OnChildRendererReleased;
-		}
-
 		private void OnChildRendererAttached(Renderer renderer)
 		{
-			var r = renderer as BoxRenderer;
+			var r = renderer as PanelRenderer;
 			if(r != null)
 			{
 				r.WidthChanged += OnChildWidthChanged;
@@ -70,7 +68,7 @@ namespace Grasshopper.Engine.Rendering.UserInterface
 
 		private void OnChildRendererReleased(Renderer renderer)
 		{
-			var r = renderer as BoxRenderer;
+			var r = renderer as PanelRenderer;
 			if(r != null)
 			{
 				r.WidthChanged -= OnChildWidthChanged;
@@ -108,11 +106,6 @@ namespace Grasshopper.Engine.Rendering.UserInterface
 		{
 			ResetWidth();
 			ResetHeight();
-		}
-
-		protected virtual void Render(float x, float y)
-		{
-			Render();
 		}
 	}
 }

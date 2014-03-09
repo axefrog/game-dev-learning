@@ -30,7 +30,7 @@ namespace SharpDx5.Game
 
 		public string Title
 		{
-			get { return "SharpDx4: Cubes"; }
+			get { return "SharpDx5: Cubes"; }
 		}
 
 		public void Run()
@@ -46,14 +46,42 @@ namespace SharpDx5.Game
 		{
 			var vertices = new[]
 			{
-				new ColoredVertex(-1.0f, 1.0f, -1.0f, 0.0f, 0.0f, 1.0f, 1.0f),
-				new ColoredVertex(1.0f, 1.0f, -1.0f, 0.0f, 1.0f, 0.0f, 1.0f),
-				new ColoredVertex(1.0f, 1.0f, 1.0f, 0.0f, 1.0f, 1.0f, 1.0f),
-				new ColoredVertex(-1.0f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 1.0f),
-				new ColoredVertex(-1.0f, -1.0f, -1.0f, 1.0f, 0.0f, 1.0f, 1.0f),
-				new ColoredVertex(1.0f, -1.0f, -1.0f, 1.0f, 1.0f, 0.0f, 1.0f),
-				new ColoredVertex(1.0f, -1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f),
-				new ColoredVertex(-1.0f, -1.0f, 1.0f, 0.0f, 0.0f, 0.0f, 1.0f)
+				new TexturedVertex(-1.0f, -1.0f, -1.0f, 0.0f, 1.0f), // Front
+				new TexturedVertex(-1.0f, 1.0f, -1.0f, 0.0f, 0.0f),
+				new TexturedVertex(1.0f, 1.0f, -1.0f, 1.0f, 0.0f),
+				new TexturedVertex(-1.0f, -1.0f, -1.0f, 0.0f, 1.0f),
+				new TexturedVertex(1.0f, 1.0f, -1.0f, 1.0f, 0.0f),
+				new TexturedVertex(1.0f, -1.0f, -1.0f, 1.0f, 1.0f),
+				new TexturedVertex(-1.0f, -1.0f, 1.0f, 1.0f, 0.0f), // BACK
+				new TexturedVertex(1.0f, 1.0f, 1.0f, 0.0f, 1.0f),
+				new TexturedVertex(-1.0f, 1.0f, 1.0f, 1.0f, 1.0f),
+				new TexturedVertex(-1.0f, -1.0f, 1.0f, 1.0f, 0.0f),
+				new TexturedVertex(1.0f, -1.0f, 1.0f, 0.0f, 0.0f),
+				new TexturedVertex(1.0f, 1.0f, 1.0f, 0.0f, 1.0f),
+				new TexturedVertex(-1.0f, 1.0f, -1.0f, 0.0f, 1.0f), // Top
+				new TexturedVertex(-1.0f, 1.0f, 1.0f, 0.0f, 0.0f),
+				new TexturedVertex(1.0f, 1.0f, 1.0f, 1.0f, 0.0f),
+				new TexturedVertex(-1.0f, 1.0f, -1.0f, 0.0f, 1.0f),
+				new TexturedVertex(1.0f, 1.0f, 1.0f, 1.0f, 0.0f),
+				new TexturedVertex(1.0f, 1.0f, -1.0f, 1.0f, 1.0f),
+				new TexturedVertex(-1.0f, -1.0f, -1.0f, 1.0f, 0.0f), // Bottom
+				new TexturedVertex(1.0f, -1.0f, 1.0f, 0.0f, 1.0f),
+				new TexturedVertex(-1.0f, -1.0f, 1.0f, 1.0f, 1.0f),
+				new TexturedVertex(-1.0f, -1.0f, -1.0f, 1.0f, 0.0f),
+				new TexturedVertex(1.0f, -1.0f, -1.0f, 0.0f, 0.0f),
+				new TexturedVertex(1.0f, -1.0f, 1.0f, 0.0f, 1.0f),
+				new TexturedVertex(-1.0f, -1.0f, -1.0f, 0.0f, 1.0f), // Left
+				new TexturedVertex(-1.0f, -1.0f, 1.0f, 0.0f, 0.0f),
+				new TexturedVertex(-1.0f, 1.0f, 1.0f, 1.0f, 0.0f),
+				new TexturedVertex(-1.0f, -1.0f, -1.0f, 0.0f, 1.0f),
+				new TexturedVertex(-1.0f, 1.0f, 1.0f, 1.0f, 0.0f),
+				new TexturedVertex(-1.0f, 1.0f, -1.0f, 1.0f, 1.0f),
+				new TexturedVertex(1.0f, -1.0f, -1.0f, 1.0f, 0.0f), // Right
+				new TexturedVertex(1.0f, 1.0f, 1.0f, 0.0f, 1.0f),
+				new TexturedVertex(1.0f, -1.0f, 1.0f, 1.0f, 1.0f),
+				new TexturedVertex(1.0f, -1.0f, -1.0f, 1.0f, 0.0f),
+				new TexturedVertex(1.0f, 1.0f, -1.0f, 0.0f, 0.0f),
+				new TexturedVertex(1.0f, 1.0f, 1.0f, 0.0f, 1.0f)
 			};
 
 			var indices = new[]

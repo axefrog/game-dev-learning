@@ -5,16 +5,19 @@ cbuffer ConstantBuffer : register(b0)
 	matrix Projection;
 }
 
+Texture2D image;
+SamplerState imageSampler;
+
 struct VOut
 {
     float4 position : SV_POSITION;
-    float4 color : COLOR;
+	float2 texcoord : TEXCOORD;
 };
 
 struct VIn
 {
 	float4 position: POSITION;
-	float4 color: COLOR;
+	float2 texcoord: TEXCOORD;
 	matrix instance: INSTANCE;
 };
 
@@ -24,13 +27,13 @@ VOut VShader(VIn input)
 	output.position = mul(input.position, input.instance);
 	output.position = mul(output.position, View);
 	output.position = mul(output.position, Projection);
-	output.color = input.color;
+	output.texcoord = input.texcoord;
 	return output;
 }
 
 float4 PShader(float4 position : SV_POSITION, float4 color : COLOR) : SV_Target
 {
-	return color;
+	return image.Sample(imageSampler, input.texcoord);
 }
 
 RasterizerState WireframeRS

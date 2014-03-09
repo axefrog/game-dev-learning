@@ -1,8 +1,8 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using SharpDX;
 using SharpDX.Direct3D11;
-using SharpDx5.Direct3D.Shaders;
 using SharpDx5.Game.Geometry;
 using Buffer = SharpDX.Direct3D11.Buffer;
 
@@ -14,9 +14,8 @@ namespace SharpDx5.Direct3D
 		public VertexBufferBinding VerticesBufferBinding { get; set; }
 		public VertexBufferBinding InstancesBufferBinding { get; set; }
 		public Buffer IndexBuffer { get; set; }
-		public ICompiledVertexShader VertexShader { get; set; }
-		public ICompiledPixelShader PixelShader { get; set; }
-			
+		public ShaderResourceView TextureView { get; set; }
+		
 		public void Dispose()
 		{
 			VerticesBufferBinding.Buffer.Dispose();
@@ -29,6 +28,9 @@ namespace SharpDx5.Direct3D
 			Model = model;
 			var vertices = Helpers.CreateBuffer(device, ResourceUsage.Default, BindFlags.VertexBuffer, model.Vertices);
 			var instances = Helpers.CreateBuffer(device, ResourceUsage.Dynamic, BindFlags.VertexBuffer, Model.Instances.Select(m => Matrix.Transpose(m.WorldMatrix)).ToArray());
+
+			using(var texture = Resource.FromFile<Texture2D>(device, Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Assets", "sandstone.png")))
+				TextureView = new ShaderResourceView(device, texture);
 
 			VerticesBufferBinding = new VertexBufferBinding(vertices, Utilities.SizeOf<ColoredVertex>(), 0);
 			InstancesBufferBinding = new VertexBufferBinding(instances, Utilities.SizeOf<Matrix>(), 0);

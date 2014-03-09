@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <UseVSHostingProcess>true</UseVSHostingProcess>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -50,6 +51,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\Dependencies\SharpDX.DXGI.dll</HintPath>
     </Reference>
+    <Reference Include="SharpDX.RawInput">
+      <HintPath>..\Dependencies\SharpDX.RawInput.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -62,16 +66,50 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FpsLimiter.cs" />
-    <Compile Include="Pipeline\DeviceManager.cs" />
+    <Compile Include="Geometry\Camera.cs" />
+    <Compile Include="Geometry\Model.cs" />
+    <Compile Include="Geometry\WorldPosition.cs" />
+    <Compile Include="Geometry\Primitives\Cube.cs" />
+    <Compile Include="Geometry\Triangle.cs" />
+    <Compile Include="Geometry\Vertex.cs" />
+    <Compile Include="Rendering\ConstantBuffers.cs" />
+    <Compile Include="Rendering\ModelInstance.cs" />
+    <Compile Include="Rendering\Pipeline\DeviceManager.cs" />
     <Compile Include="GrasshopperApp.cs" />
-    <Compile Include="Pipeline\Direct2DDeviceManager.cs" />
-    <Compile Include="Pipeline\Direct3DDeviceManager.cs" />
+    <Compile Include="Rendering\Pipeline\Direct2DDeviceManager.cs" />
+    <Compile Include="Rendering\Pipeline\Direct3DDeviceManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Pipeline\PipelineManager.cs" />
+    <Compile Include="Rendering\Pipeline\PipelineManager.cs" />
+    <Compile Include="Rendering\BufferHelper.cs" />
+    <Compile Include="Rendering\ModelRenderer.cs" />
+    <Compile Include="Rendering\RenderManager.cs" />
+    <Compile Include="Rendering\Shaders\RegisteredPixelShader.cs" />
+    <Compile Include="Rendering\Shaders\RegisteredVertexShader.cs" />
+    <Compile Include="Rendering\Shaders\ShaderManager.cs" />
+    <Compile Include="Rendering\Shaders\Basic\BasicShaderSources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BasicShaderSources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Rendering\Shaders\HlslCompiler.cs" />
+    <Compile Include="Rendering\Shaders\HlslFileIncludeHandler.cs" />
     <Compile Include="Rendering\UserInterface\DebugInfoPanel.cs" />
     <Compile Include="Rendering\Renderer.cs" />
-    <Compile Include="Rendering\UserInterface\BoxRenderer.cs" />
+    <Compile Include="Rendering\UserInterface\PanelRenderer.cs" />
+    <Compile Include="InputManager.cs" />
     <Compile Include="TickCounter.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Rendering\Shaders\Basic\BasicShaderSources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>BasicShaderSources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Rendering\Shaders\Basic\Source\Common.hlsl" />
+    <Content Include="Rendering\Shaders\Basic\Source\DefaultPixelShader.hlsl" />
+    <Content Include="Rendering\Shaders\Basic\Source\DefaultVertexShader.hlsl" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

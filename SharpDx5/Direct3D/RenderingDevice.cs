@@ -3,6 +3,7 @@ using SharpDX;
 using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
 using SharpDX.DXGI;
+using SharpDx5.Game.UserInterface;
 using Device = SharpDX.Direct3D11.Device;
 
 namespace SharpDx5.Direct3D

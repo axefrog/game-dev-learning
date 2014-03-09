@@ -2,7 +2,7 @@
 using SharpDX.Direct3D;
 using SharpDX.Direct3D11;
 
-namespace Grasshopper.Engine.Pipeline
+namespace Grasshopper.Engine.Rendering.Pipeline
 {
 	public class Direct3DDeviceManager : Component
 	{

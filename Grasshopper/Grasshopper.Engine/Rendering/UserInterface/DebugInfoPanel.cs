@@ -7,7 +7,7 @@ using SharpDX.DirectWrite;
 
 namespace Grasshopper.Engine.Rendering.UserInterface
 {
-	public class DebugInfoPanel : BoxRenderer
+	public class DebugInfoPanel : PanelRenderer
 	{
 		private readonly List<GroupRenderer> _groups = new List<GroupRenderer>();
 		private readonly Dictionary<string, int> _indices = new Dictionary<string, int>();
@@ -25,12 +25,15 @@ namespace Grasshopper.Engine.Rendering.UserInterface
 		protected override float CalculateWidth()
 		{
 			var width = 0f;
+			var maxLabelWidth = 0f;
 			foreach(var g in _groups)
 			{
 				if(g.Empty)
 					continue;
 				width = Math.Max(width, g.Width);
+				maxLabelWidth = Math.Max(maxLabelWidth, g.CalculateMaxLabelWidth());
 			}
+			_groups.ForEach(g => g.MaxLabelWidth = maxLabelWidth);
 			if(width > 0)
 				width += PanelMargin * 2;
 			return width;
@@ -67,6 +70,7 @@ namespace Grasshopper.Engine.Rendering.UserInterface
 					return _groups[n];
 				var group = Attach(new GroupRenderer(title));
 				group.Initialize(App);
+				_indices.Add(title ?? "", _groups.Count);
 				_groups.Add(group);
 				return group;
 			}
@@ -137,7 +141,7 @@ namespace Grasshopper.Engine.Rendering.UserInterface
 			}
 		}
 
-		public class GroupRenderer : BoxRenderer
+		public class GroupRenderer : PanelRenderer
 		{
 			public static float TitleMargin { get; set; }
 			public static float LineSpacing { get; set; }
@@ -149,7 +153,7 @@ namespace Grasshopper.Engine.Rendering.UserInterface
 			}
 
 			private readonly SortedDictionary<string, LabelPairRenderer> _pairs = new SortedDictionary<string, LabelPairRenderer>();
-			private float _maxLabelWidth;
+			public float MaxLabelWidth { get; set; }
 
 			public float Left { get; set; }
 			public float Top { get; set; }
@@ -159,8 +163,12 @@ namespace Grasshopper.Engine.Rendering.UserInterface
 			protected override float CalculateWidth()
 			{
 				var maxValueWidth = _pairs.Values.Max(v => v.Value.Width);
-				_maxLabelWidth = _pairs.Values.Max(v => v.Label.Width);
-				return _maxLabelWidth + maxValueWidth + LabelPairRenderer.LabelMargin;
+				return MaxLabelWidth + maxValueWidth + LabelPairRenderer.LabelMargin;
+			}
+
+			public float CalculateMaxLabelWidth()
+			{
+				return _pairs.Values.Max(v => v.Label.Width);
 			}
 
 			protected override float CalculateHeight()
@@ -255,14 +263,14 @@ namespace Grasshopper.Engine.Rendering.UserInterface
 				{
 					pair.Top = top;
 					pair.Left = Left;
-					pair.MaxLabelWidth = _maxLabelWidth;
+					pair.MaxLabelWidth = MaxLabelWidth;
 					pair.Render();
 					top += pair.Height + LineSpacing;
 				}
 			}
 		}
 
-		public class LabelPairRenderer : BoxRenderer
+		public class LabelPairRenderer : PanelRenderer
 		{
 			public static float LabelMargin { get; set; }
 
@@ -313,7 +321,7 @@ namespace Grasshopper.Engine.Rendering.UserInterface
 			}
 		}
 
-		public abstract class TextRenderer : BoxRenderer
+		public abstract class TextRenderer : PanelRenderer
 		{
 			protected TextRenderer(string text)
 			{

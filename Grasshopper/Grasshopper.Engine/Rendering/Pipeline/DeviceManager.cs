@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Grasshopper.Engine.Pipeline
+namespace Grasshopper.Engine.Rendering.Pipeline
 {
 	public class DeviceManager : IDisposable
 	{

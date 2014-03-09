@@ -103,12 +103,13 @@ namespace SharpDx5.Direct3D
 
 			var matrices = new ViewTransformMatrices
 			{
-				World = Matrix.Transpose(_viewTransformMatrices.World),
-				View = Matrix.Transpose(_viewTransformMatrices.View),
-				Projection = Matrix.Transpose(_viewTransformMatrices.Projection),
+				World = _viewTransformMatrices.World,
+				View = _viewTransformMatrices.View,
+				Projection = _viewTransformMatrices.Projection,
 			};
 
-			_device.Context.UpdateSubresource(ref matrices, _constantBuffer);
+			_defaultEffect.UpdateConstants(matrices);
+			//_device.Context.UpdateSubresource(ref matrices, _constantBuffer);
 		}
 
 		public void Dispose()

@@ -13,7 +13,7 @@ namespace Grasshopper.Cubes
 			Height = height;
 			AllowUserResizing = true;
 
-			KeyDown += OnKeyDown;
+			//KeyDown += OnKeyDown;
 			ResizeEnd += OnResizeEnd;
 		}
 

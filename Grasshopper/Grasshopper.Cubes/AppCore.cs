@@ -1,7 +1,9 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
+using System.Linq;
 using System.Windows.Forms;
+using Grasshopper.Cubes.Game;
 using Grasshopper.Engine;
+using Grasshopper.Engine.Rendering;
 using SharpDX;
 using SharpDX.Windows;
 
@@ -11,11 +13,48 @@ namespace Grasshopper.Cubes
 	{
 		private readonly Form _form;
 		private readonly GameCore _game;
+		private bool _exit;
 
 		public AppCore(Form form, GameCore game) : base(form)
 		{
 			_form = form;
 			_game = game;
+
+			InputManager.Default.KeyDown += OnKeyDown;
+			InputManager.Default.KeyUp += OnKeyUp;
+		}
+
+		private bool _isCounting;
+		private Stopwatch _countingTimer;
+
+		private void OnKeyDown(Keys key)
+		{
+			switch(key)
+			{
+				case Keys.Escape:
+					_exit = true;
+					break;
+
+				case Keys.Space:
+					if(!_isCounting)
+					{
+						_isCounting = true;
+						_countingTimer = Stopwatch.StartNew();
+					}
+					break;
+			}
+		}
+
+		private void OnKeyUp(Keys key)
+		{
+			switch(key)
+			{
+				case Keys.Space:
+					_countingTimer.Stop();
+					_isCounting = false;
+					Debug.Clear("Testing");
+					break;
+			}
 		}
 
 		public void Run()
@@ -28,36 +67,56 @@ namespace Grasshopper.Cubes
 			var gamePanel = Debug["Game Core"];
 			var rendererPanel = Debug["Renderer"];
 			var sw = Stopwatch.StartNew();
+			var exiting = false;
+
+			var modelRenderers = _game.Models.Select(m =>
+			{
+				var r = new ModelRenderer(m);
+				r.Initialize(this);
+				return r;
+			}).ToArray();
+
+			RenderManager.Camera = _game.ActiveCamera;
 
 			RenderLoop.Run(_form, () =>
 			{
-				_game.Run();
+				if(_exit)
+				{
+					if(!exiting)
+					{
+						exiting = true;
+						Dispose();
+						Application.Exit();
+					}
+					return;
+				}
+
+				_game.Update();
 				gameFps.Tick();
 
 				if(!fpsLimiter.CanRun)
 					return;
 
-				ClearBackground(Color.CornflowerBlue);
+				Pipeline.Clear(Color.CornflowerBlue);
 
 				if(debugLimiter.CanRun)
 				{
+					if(_isCounting)
+						Debug["Testing"].Set("Counter", _countingTimer.Elapsed);
+
 					gamePanel.Set("Elapsed", sw.Elapsed);
-					gamePanel.Set("Game", "{0:#,##0}fps ({1:0.####}ms)", gameFps.FramesPerSecond, gameFps.AverageTickLength);
-					rendererPanel.Set("Render", "{0:#,##0.#}fps ({1:0.#}ms)", renderFps.FramesPerSecond, renderFps.AverageTickLength);
+					gamePanel.Set("Main Loop", "{0:#,##0} cycles/sec", gameFps.TicksPerSecond);
+					rendererPanel.Set("Frame Rate", "{0:###,##0.0}fps ({1:0.0}ms/frame)", renderFps.TicksPerSecond, renderFps.AverageTickDuration);
 				}
+
+				// Draw 3D scene objects
+				RenderManager.RenderFrame(modelRenderers);
 				Debug.Render();
 
+				// Render everything to the screen
 				Pipeline.Present();
-
 				renderFps.Tick();
 			});
-		}
-
-		private void ClearBackground(Color4 color)
-		{
-			var context = DeviceManager.Direct3D.Context;
-			var renderTarget = Pipeline.RenderTargetView;
-			context.ClearRenderTargetView(renderTarget, color);
 		}
 	}
 }
