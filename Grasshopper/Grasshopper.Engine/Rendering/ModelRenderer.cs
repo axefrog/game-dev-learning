@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using Grasshopper.Engine.Geometry;
 using SharpDX;
 using SharpDX.Direct3D;
@@ -55,10 +54,10 @@ namespace Grasshopper.Engine.Rendering
 			var data = _model.Instances.Select(m =>
 			{
 				var inst = new ModelInstance();
-				inst.World = m.WorldMatrix * renderManager.WorldMatrix;
-				inst.WorldInverseTranspose = Matrix.Transpose(Matrix.Invert(m.WorldMatrix));
-				inst.WorldViewProjection = m.WorldMatrix * renderManager.ViewProjectionMatrix;
-				inst.Transpose();
+				inst.World = Matrix.Transpose(m.WorldMatrix);
+				//inst.WorldInverseTranspose = Matrix.Transpose(Matrix.Invert(m.WorldMatrix));
+				//inst.WorldViewProjection = m.WorldMatrix * renderManager.ViewProjectionMatrix;
+				//inst.Transpose();
 				return inst;
 			}).ToArray();
 			return data;

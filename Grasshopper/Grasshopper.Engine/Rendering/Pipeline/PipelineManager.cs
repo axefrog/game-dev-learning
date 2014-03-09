@@ -173,7 +173,7 @@ namespace Grasshopper.Engine.Rendering.Pipeline
 				Height = _app.Height,
 				Format = Format.B8G8R8A8_UNorm,
 				Stereo = false,
-				SampleDescription = new SampleDescription(1, 0),
+				SampleDescription = new SampleDescription(4, 4),
 				Usage = Usage.BackBuffer | Usage.RenderTargetOutput,
 				BufferCount = 1,
 				Scaling = Scaling.Stretch,

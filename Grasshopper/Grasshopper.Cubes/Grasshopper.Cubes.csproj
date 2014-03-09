@@ -56,10 +56,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppCore.cs" />
+    <Compile Include="Game\AnimatedCube.cs" />
     <Compile Include="Game\GameCore.cs" />
     <Compile Include="GameForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="Game\MovableCamera.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -10,11 +10,11 @@ namespace Grasshopper.Engine.Rendering
 		public Matrix WorldInverseTranspose;
 		public Matrix WorldViewProjection;
 
-		public void Transpose()
-		{
-			World.Transpose();
-			WorldInverseTranspose.Transpose();
-			WorldViewProjection.Transpose();
-		}
+		//public void Transpose()
+		//{
+		//	World.Transpose();
+		//	WorldInverseTranspose.Transpose();
+		//	WorldViewProjection.Transpose();
+		//}
 	}
 }

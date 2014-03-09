@@ -24,10 +24,9 @@ namespace Grasshopper.Engine.Geometry
 			Yaw = yaw;
 			Pitch = pitch;
 			Roll = roll;
-			Update();
 		}
 
-		public void Update()
+		public virtual void Update(long elapsedMilliseconds)
 		{
 			var orientation = Quaternion.RotationYawPitchRoll(Yaw, Pitch, Roll);
 			WorldMatrix = Matrix.AffineTransformation(Scale, orientation, Location);

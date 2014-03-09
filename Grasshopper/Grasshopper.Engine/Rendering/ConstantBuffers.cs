@@ -8,8 +8,11 @@ namespace Grasshopper.Engine.Rendering
 		[StructLayout(LayoutKind.Sequential, Pack = 1)]
 		public struct PerFrame
 		{
-			public Vector3 CameraPosition;
-			float _padding0; // pad the structure
+			public Matrix World;
+			public Matrix View;
+			public Matrix Projection;
+			//public Vector3 CameraPosition;
+			//float _padding0; // pad the structure
 		}
 	}
 }

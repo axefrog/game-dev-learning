@@ -58,7 +58,7 @@ namespace Grasshopper.Engine.Rendering.UserInterface
 		protected override void CreateDeviceDependentResources()
 		{
 			base.CreateDeviceDependentResources();
-			_panelBrush = new SolidColorBrush(App.DeviceManager.Direct2D.Context, new Color4(Color3.Black, 0.2f));
+			_panelBrush = ToDispose(new SolidColorBrush(App.DeviceManager.Direct2D.Context, new Color4(Color3.Black, 0.5f)));
 		}
 
 		private GroupRenderer GetGroup(string title)
@@ -407,8 +407,8 @@ namespace Grasshopper.Engine.Rendering.UserInterface
 
 			protected override void OnCreate()
 			{
-				TextFormat = ToDispose(new TextFormat(DeviceManager.Direct2D.DirectWriteFactory, "Consolas", FontWeight.Bold, FontStyle.Normal, 13f));
-				Brush = ToDispose(new SolidColorBrush(App.DeviceManager.Direct2D.Context, new Color4(Color3.Black, 0.5f)));
+				TextFormat = ToDispose(new TextFormat(DeviceManager.Direct2D.DirectWriteFactory, "Consolas", FontWeight.Bold, FontStyle.Normal, 16f));
+				Brush = ToDispose(new SolidColorBrush(App.DeviceManager.Direct2D.Context, new Color4(Color3.Black, 1f)));
 			}
 		}
 

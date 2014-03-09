@@ -57,6 +57,11 @@ namespace Grasshopper.Engine
 			}
 		}
 
+		public bool IsKeyDown(Keys key)
+		{
+			return _keysDown.Contains(key);
+		}
+
 		public void Dispose()
 		{
 			Device.KeyboardInput -= OnKeyboardInput;

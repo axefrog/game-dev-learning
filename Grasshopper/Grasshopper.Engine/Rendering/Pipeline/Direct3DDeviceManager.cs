@@ -8,6 +8,7 @@ namespace Grasshopper.Engine.Rendering.Pipeline
 	{
 		private Device1 _device;
 		private DeviceContext1 _context;
+		private RasterizerState _rasterState;
 
 		public FeatureLevel[] FeatureLevels { get; set; }
 
@@ -42,6 +43,27 @@ namespace Grasshopper.Engine.Rendering.Pipeline
 			using(var device = new Device(DriverType.Hardware, creationFlags, FeatureLevels))
 				_device = ToDispose(device.QueryInterface<Device1>());
 			_context = ToDispose(_device.ImmediateContext.QueryInterface<DeviceContext1>());
+
+			SetDefaultRasterState();
+		}
+
+		public void SetDefaultRasterState()
+		{
+			RemoveAndDispose(ref _rasterState);
+			var rdesc = RasterizerStateDescription.Default();
+			rdesc.CullMode = CullMode.Front;
+			_rasterState = ToDispose(new RasterizerState(_device, rdesc));
+			Context.Rasterizer.State = _rasterState;
+		}
+
+		public void SetWireframeRasterState()
+		{
+			RemoveAndDispose(ref _rasterState);
+			var rdesc = RasterizerStateDescription.Default();
+			rdesc.FillMode = FillMode.Wireframe;
+			rdesc.CullMode = CullMode.Front;
+			_rasterState = ToDispose(new RasterizerState(_device, rdesc));
+			Context.Rasterizer.State = _rasterState;
 		}
 	}
 }

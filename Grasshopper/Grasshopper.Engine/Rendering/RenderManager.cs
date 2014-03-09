@@ -13,14 +13,20 @@ namespace Grasshopper.Engine.Rendering
 		private Buffer _frameBuffer;
 
 		public Camera Camera { get; set; }
+
+		//public Matrix ViewProjectionMatrix { get; private set; }
+
 		public Matrix WorldMatrix { get; set; }
-		public Matrix ViewProjectionMatrix { get; private set; }
+		public Matrix ViewMatrix { get; set; }
+		public Matrix ProjectionMatrix { get; set; }
 
 		public RenderManager(GrasshopperApp app)
 		{
 			_app = app;
 			_app.Pipeline.DeviceChanged += OnDeviceChanged;
+			
 			WorldMatrix = Matrix.Identity;
+			ViewMatrix = Matrix.Identity;
 		}
 
 		private void OnDeviceChanged()
@@ -42,19 +48,21 @@ namespace Grasshopper.Engine.Rendering
 
 		public void RenderFrame(IEnumerable<Renderer> renderers)
 		{
-			var view = Matrix.LookAtLH(Camera.Position, Camera.Target, Camera.Up);
-			var projection = Matrix.PerspectiveFovLH(Camera.FieldOfView, _app.Width / (float)_app.Height, Camera.NearPlane, Camera.FarPlane);
-			var camPosition = Matrix.Transpose(Matrix.Invert(view)).Column4;
+			ViewMatrix = Matrix.LookAtLH(Camera.Position, Camera.Target, Camera.Up);
+			ProjectionMatrix = Matrix.PerspectiveFovLH(Camera.FieldOfView, _app.Width / (float)_app.Height, Camera.NearPlane, Camera.FarPlane);
 
-			ViewProjectionMatrix = Matrix.Multiply(view, projection);
+			//var camPosition = Matrix.Transpose(Matrix.Invert(view)).Column4;
 
 			var perFrame = new ConstantBuffers.PerFrame
 			{
-				CameraPosition = new Vector3(camPosition.X, camPosition.Y, camPosition.Z),
+
+				//CameraPosition = new Vector3(camPosition.X, camPosition.Y, camPosition.Z),
+				World = Matrix.Transpose(WorldMatrix),
+				View = Matrix.Transpose(ViewMatrix),
+				Projection = Matrix.Transpose(ProjectionMatrix)
 			};
 
-			var context = _app.DeviceManager.Direct3D.Context;
-			context.UpdateSubresource(ref perFrame, _frameBuffer);
+			_app.DeviceManager.Direct3D.Context.UpdateSubresource(ref perFrame, _frameBuffer);
 			
 			foreach(var renderer in renderers)
 				renderer.Render();

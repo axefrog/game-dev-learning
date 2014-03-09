@@ -1,6 +1,9 @@
 ﻿cbuffer PerFrame : register(b0)
 {
-	float3 cameraPosition;
+	matrix world;
+	matrix view;
+	matrix projection;
+	//float3 cameraPosition;
 };
 
 struct VertexShaderInput
@@ -9,7 +12,7 @@ struct VertexShaderInput
 	float3 normal    : NORMAL;
 	float4 color     : COLOR;
 	float2 uv        : TEXTUREUV;
-	matrix wvproj    : WVPROJ;
+	matrix instance  : INSTANCE;
 	matrix world     : WORLD;
 	matrix winvtrans : WINVTRANS;
 };

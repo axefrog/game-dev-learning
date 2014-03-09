@@ -66,6 +66,7 @@ namespace Grasshopper.Cubes
 
 			var gamePanel = Debug["Game Core"];
 			var rendererPanel = Debug["Renderer"];
+			var cameraPanel = Debug["Camera"];
 			var sw = Stopwatch.StartNew();
 			var exiting = false;
 
@@ -91,7 +92,7 @@ namespace Grasshopper.Cubes
 					return;
 				}
 
-				_game.Update();
+				_game.Update(sw.ElapsedMilliseconds);
 				gameFps.Tick();
 
 				if(!fpsLimiter.CanRun)
@@ -107,6 +108,10 @@ namespace Grasshopper.Cubes
 					gamePanel.Set("Elapsed", sw.Elapsed);
 					gamePanel.Set("Main Loop", "{0:#,##0} cycles/sec", gameFps.TicksPerSecond);
 					rendererPanel.Set("Frame Rate", "{0:###,##0.0}fps ({1:0.0}ms/frame)", renderFps.TicksPerSecond, renderFps.AverageTickDuration);
+					var pos = _game.ActiveCamera.Position;
+					cameraPanel.Set("Position", "X: {0:0.###}, Y: {1:0.###}, Z: {2:0.###}", pos.X, pos.Y, pos.Z);
+					pos = _game.ActiveCamera.Target;
+					cameraPanel.Set("Target", "X: {0:0.###}, Y: {1:0.###}, Z: {2:0.###}", pos.X, pos.Y, pos.Z);
 				}
 
 				// Draw 3D scene objects
